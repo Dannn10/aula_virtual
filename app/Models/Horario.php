@@ -10,4 +10,9 @@ class Horario extends Model
     use HasFactory;
 
     protected $fillable = ['materia_id', 'dia', 'hora_inicio', 'hora_fin'];
+
+    public function materia()
+    {
+        return $this->belongsTo(Materia::class);
+    }
 }

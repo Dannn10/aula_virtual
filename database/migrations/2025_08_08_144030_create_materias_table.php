@@ -7,27 +7,23 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
+     * Ejecuta la migración.
      */
-    public function up()
+    public function up(): void
     {
-       Schema::create('materias', function (Blueprint $table) {
-    $table->id();
-    $table->string('nombre');
-    $table->string('codigo')->unique();
-    $table->timestamps();
-});
-
+        Schema::create('materias', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            // ✅ Se agrega la columna descripcion
+            $table->text('descripcion')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
+     * Revierte la migración.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('materias');
     }

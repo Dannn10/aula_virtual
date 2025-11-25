@@ -2,33 +2,39 @@
 
 @section('content')
 <div class="container">
-    <h1>Lista de Aulas</h1>
-    <a href="{{ route('aulas.create') }}" class="btn btn-primary">Agregar Aula</a>
-    <table class="table mt-3">
+    <h1>Lista de Horarios</h1>
+
+    <a href="{{ route('horarios.create') }}" class="btn btn-primary mb-3">Agregar Horario</a>
+
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nombre</th>
-                <th>Capacidad</th>
+                <th>Materia ID</th>
+                <th>Día</th>
+                <th>Hora de inicio</th>
+                <th>Hora de fin</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($aulas as $aula)
-            <tr>
-                <td>{{ $aula->id }}</td>
-                <td>{{ $aula->nombre }}</td>
-                <td>{{ $aula->capacidad }}</td>
-                <td>
-                    <a href="{{ route('aulas.show', $aula->id) }}" class="btn btn-info">Ver</a>
-                    <a href="{{ route('aulas.edit', $aula->id) }}" class="btn btn-warning">Editar</a>
-                    <form action="{{ route('aulas.destroy', $aula->id) }}" method="POST" style="display:inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger" onclick="return confirm('¿Seguro que quieres eliminar?')">Borrar</button>
-                    </form>
-                </td>
-            </tr>
+            @foreach($horarios as $horario)
+                <tr>
+                    <td>{{ $horario->id }}</td>
+                    <td>{{ $horario->materia_id }}</td>
+                    <td>{{ $horario->dia }}</td>
+                    <td>{{ $horario->hora_inicio }}</td>
+                    <td>{{ $horario->hora_fin }}</td>
+                    <td>
+                        <a href="{{ route('horarios.show', $horario->id) }}" class="btn btn-info btn-sm">Ver</a>
+                        <a href="{{ route('horarios.edit', $horario->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                        <form action="{{ route('horarios.destroy', $horario->id) }}" method="POST" style="display:inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que quieres eliminar este horario?')">Borrar</button>
+                        </form>
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>

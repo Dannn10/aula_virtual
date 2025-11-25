@@ -20,8 +20,13 @@ class MateriaController extends Controller
 
     public function store(Request $request)
     {
-        Materia::create($request->all());
-        return redirect()->route('materias.index');
+        $request->validate([
+            'nombre' => 'required'
+        ]);
+
+        Materia::create($request->only('nombre', 'descripcion'));
+
+        return redirect()->route('materias.index')->with('success', 'Materia creada correctamente.');
     }
 
     public function show(Materia $materia)
@@ -36,13 +41,19 @@ class MateriaController extends Controller
 
     public function update(Request $request, Materia $materia)
     {
-        $materia->update($request->all());
-        return redirect()->route('materias.index');
+        $request->validate([
+            'nombre' => 'required'
+        ]);
+
+        // ✅ Ahora también guarda la descripción
+        $materia->update($request->only('nombre', 'descripcion'));
+
+        return redirect()->route('materias.index')->with('success', 'Materia actualizada correctamente.');
     }
 
     public function destroy(Materia $materia)
     {
         $materia->delete();
-        return redirect()->route('materias.index');
+        return redirect()->route('materias.index')->with('success', 'Materia eliminada.');
     }
 }

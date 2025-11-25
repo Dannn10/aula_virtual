@@ -10,4 +10,4 @@ class Materia extends Model
     use HasFactory;
 
     protected $fillable = ['nombre', 'descripcion'];
-}   
+}

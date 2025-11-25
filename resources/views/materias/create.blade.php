@@ -1,4 +1,4 @@
-@extends('layouts.app') {{-- Usa tu layout principal si lo tenés --}}
+@extends('layouts.app')
 
 @section('content')
 <div class="container mt-4">
@@ -9,6 +9,7 @@
         <div class="card-body">
             <form action="{{ route('materias.store') }}" method="POST">
                 @csrf
+
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre de la Materia</label>
                     <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ej: Matemática" required>

@@ -6,29 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
         Schema::create('horarios', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('reserva_id')->constrained();
-    $table->string('dia');
-    $table->time('hora_inicio');
-    $table->time('hora_fin');
-    $table->timestamps();
-});
+            $table->id();
+            $table->foreignId('materia_id')->constrained('materias')->onDelete('cascade');
+            $table->string('dia', 50);
+            $table->time('hora_inicio');
+            $table->time('hora_fin');
+            $table->timestamps();
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('horarios');
     }

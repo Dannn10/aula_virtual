@@ -9,5 +9,22 @@ class Reserva extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['aula_id', 'docente_id', 'materia_id', 'fecha', 'hora_inicio', 'hora_fin'];
+    protected $fillable = [
+        'docente_id',
+        'aula_id',
+        'materia_id',
+        'fecha_inicio',
+        'fecha_fin',
+    ];
+
+    // Esto permite que al usar ->fecha_inicio sea Carbon
+    protected $casts = [
+        'fecha_inicio' => 'datetime',
+        'fecha_fin' => 'datetime',
+    ];
+
+    // relaciones...
+    public function docente() { return $this->belongsTo(Docente::class); }
+    public function aula()    { return $this->belongsTo(Aula::class); }
+    public function materia() { return $this->belongsTo(Materia::class); }
 }

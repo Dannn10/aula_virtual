@@ -1,10 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1>Detalle del Aula</h1>
-    <p><strong>Nombre:</strong> {{ $aula->nombre }}</p>
-    <p><strong>Capacidad:</strong> {{ $aula->capacidad }}</p>
-    <a href="{{ route('aulas.index') }}" class="btn btn-secondary">Volver</a>
+<div class="container mt-4">
+    <div class="card shadow-lg">
+        <div class="card-header bg-info text-white">
+            <h4 class="mb-0">📘 Detalles de la Materia</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Nombre:</strong> {{ $materia->nombre }}</p>
+
+            <a href="{{ route('materias.index') }}" class="btn btn-secondary">⬅️ Volver</a>
+        </div>
+    </div>
 </div>
 @endsection

@@ -1,35 +1,79 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1>Editar Reserva</h1>
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header">Editar Reserva</div>
+        <div class="card-body">
+            <form action="{{ route('reservas.update', $reserva) }}" method="POST">
+                @csrf
+                @method('PUT')
 
-    <form action="{{ route('reservas.update', $reserva) }}" method="POST">
-        @csrf @method('PUT')
+                {{-- Docente --}}
+                <div class="mb-3">
+                    <label class="form-label">Docente</label>
+                    <input list="docentesList" name="docente_name" value="{{ old('docente_name', $reserva->docente->nombre . ' ' . ($reserva->docente->apellido ?? '')) }}" class="form-control" required>
+                    <datalist id="docentesList">
+                        @foreach($docentes as $d)
+                            <option value="{{ $d->nombre }} {{ $d->apellido }}"></option>
+                        @endforeach
+                    </datalist>
+                </div>
 
-        <div class="mb-3">
-            <label>Docente</label>
-            <select name="docente_id" class="form-control" required>
-                @foreach($docentes as $docente)
-                    <option value="{{ $docente->id }}" {{ $reserva->docente_id == $docente->id ? 'selected' : '' }}>
-                        {{ $docente->nombre }} {{ $docente->apellido }}
-                    </option>
-                @endforeach
-            </select>
+                {{-- Aula --}}
+                <div class="mb-3">
+                    <label class="form-label">Aula</label>
+                    <input list="aulasList" name="aula_name" value="{{ old('aula_name', $reserva->aula->nombre ?? '') }}" class="form-control" required>
+                    <datalist id="aulasList">
+                        @foreach($aulas as $a)
+                            <option value="{{ $a->nombre }}"></option>
+                        @endforeach
+                    </datalist>
+                </div>
+
+                {{-- Materia --}}
+                <div class="mb-3">
+                    <label class="form-label">Materia</label>
+                    <input list="materiasList" name="materia_name" value="{{ old('materia_name', $reserva->materia->nombre ?? '') }}" class="form-control" required>
+                    <datalist id="materiasList">
+                        @foreach($materias as $m)
+                            <option value="{{ $m->nombre }}"></option>
+                        @endforeach
+                    </datalist>
+                </div>
+
+                {{-- Fechas --}}
+                <div class="mb-3">
+                    <label class="form-label">Fecha y hora de inicio</label>
+                    <input type="datetime-local" name="fecha_inicio" class="form-control"
+                           value="{{ old('fecha_inicio', $reserva->fecha_inicio ? $reserva->fecha_inicio->format('Y-m-d\TH:i') : '') }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Fecha y hora de fin</label>
+                    <input type="datetime-local" name="fecha_fin" class="form-control"
+                           value="{{ old('fecha_fin', $reserva->fecha_fin ? $reserva->fecha_fin->format('Y-m-d\TH:i') : '') }}" required>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a href="{{ route('reservas.index') }}" class="btn btn-secondary">Cancelar</a>
+                    <button class="btn btn-warning">Actualizar</button>
+                </div>
+            </form>
         </div>
-
-        <div class="mb-3">
-            <label>Aula</label>
-            <input type="text" name="aula" value="{{ $reserva->aula }}" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label>Fecha</label>
-            <input type="datetime-local" name="fecha" value="{{ \Carbon\Carbon::parse($reserva->fecha)->format('Y-m-d\TH:i') }}" class="form-control" required>
-        </div>
-
-        <button class="btn btn-warning">Actualizar</button>
-        <a href="{{ route('reservas.index') }}" class="btn btn-secondary">Cancelar</a>
-    </form>
+    </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const inicio = document.querySelector('input[name="fecha_inicio"]');
+    const fin = document.querySelector('input[name="fecha_fin"]');
+    if(!inicio || !fin) return;
+    if (inicio.value) fin.min = inicio.value;
+    inicio.addEventListener('change', () => {
+        fin.min = inicio.value;
+        if (fin.value && fin.value <= inicio.value) fin.value = '';
+    });
+});
+</script>
 @endsection
