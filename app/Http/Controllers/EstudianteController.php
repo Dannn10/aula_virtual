@@ -7,86 +7,51 @@ use Illuminate\Http\Request;
 
 class EstudianteController extends Controller
 {
-    /**
-     * Mostrar listado de estudiantes.
-     */
     public function index()
     {
         $estudiantes = Estudiante::all();
         return view('estudiantes.index', compact('estudiantes'));
     }
 
-    /**
-     * Mostrar formulario para crear un nuevo estudiante.
-     */
     public function create()
     {
         return view('estudiantes.create');
     }
 
-    /**
-     * Guardar un nuevo estudiante en la base de datos.
-     */
     public function store(Request $request)
     {
         $request->validate([
-            'nombre'   => 'required|string|max:100',
-            'apellido' => 'required|string|max:100',
-            'email'    => 'required|email|unique:estudiantes,email',
+            'nombre' => 'required|max:100',
+            'apellido' => 'required|max:100',
+            'dni' => 'required|unique:estudiantes,dni',
+            'email' => 'nullable|email|unique:estudiantes,email',
         ]);
 
         Estudiante::create($request->all());
-
-        return redirect()->route('estudiantes.index')
-                         ->with('success', 'Estudiante creado exitosamente.');
+        return redirect()->route('estudiantes.index')->with('success', 'Estudiante creado correctamente');
     }
 
-    /**
-     * Mostrar un estudiante específico.
-     */
-    public function show($id)
+    public function edit(Estudiante $estudiante)
     {
-        $estudiante = Estudiante::findOrFail($id);
-        return view('estudiantes.show', compact('estudiante'));
-    }
-
-    /**
-     * Mostrar formulario de edición.
-     */
-    public function edit($id)
-    {
-        $estudiante = Estudiante::findOrFail($id);
         return view('estudiantes.edit', compact('estudiante'));
     }
 
-    /**
-     * Actualizar datos del estudiante.
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, Estudiante $estudiante)
     {
-        $estudiante = Estudiante::findOrFail($id);
-
         $request->validate([
-            'nombre'   => 'required|string|max:100',
-            'apellido' => 'required|string|max:100',
-            'email'    => 'required|email|unique:estudiantes,email,' . $estudiante->id,
+            'nombre' => 'required|max:100',
+            'apellido' => 'required|max:100',
+            'dni' => 'required|unique:estudiantes,dni,' . $estudiante->id,
+            'email' => 'nullable|email|unique:estudiantes,email,' . $estudiante->id,
         ]);
 
         $estudiante->update($request->all());
-
-        return redirect()->route('estudiantes.index')
-                         ->with('success', 'Estudiante actualizado correctamente.');
+        return redirect()->route('estudiantes.index')->with('success', 'Datos actualizados correctamente');
     }
 
-    /**
-     * Eliminar estudiante.
-     */
-    public function destroy($id)
+    public function destroy(Estudiante $estudiante)
     {
-        $estudiante = Estudiante::findOrFail($id);
         $estudiante->delete();
-
-        return redirect()->route('estudiantes.index')
-                         ->with('success', 'Estudiante eliminado.');
+        return redirect()->route('estudiantes.index')->with('success', 'Estudiante eliminado correctamente');
     }
 }

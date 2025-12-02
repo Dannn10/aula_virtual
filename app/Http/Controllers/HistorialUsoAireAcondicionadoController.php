@@ -24,25 +24,25 @@ class HistorialUsoAireAcondicionadoController extends Controller
         return redirect()->route('historialusoaireacondicionados.index');
     }
 
-    public function show(HistorialUsoAireAcondicionado $historial)
+    public function show(HistorialUsoAireAcondicionado $historialusoaireacondicionado)
     {
-        return view('historialusoaireacondicionados.show', compact('historial'));
+        return view('historialusoaireacondicionados.show', compact('historialusoaireacondicionado'));
     }
 
-    public function edit(HistorialUsoAireAcondicionado $historial)
+    public function edit(HistorialUsoAireAcondicionado $historialusoaireacondicionado)
     {
-        return view('historialusoaireacondicionados.edit', compact('historial'));
+        return view('historialusoaireacondicionados.edit', compact('historialusoaireacondicionado'));
     }
 
-    public function update(Request $request, HistorialUsoAireAcondicionado $historial)
+    public function update(Request $request, HistorialUsoAireAcondicionado $historialusoaireacondicionado)
     {
-        $historial->update($request->all());
+        $historialusoaireacondicionado->update($request->all());
         return redirect()->route('historialusoaireacondicionados.index');
     }
 
-    public function destroy(HistorialUsoAireAcondicionado $historial)
+    public function destroy(HistorialUsoAireAcondicionado $historialusoaireacondicionado)
     {
-        $historial->delete();
+        $historialusoaireacondicionado->delete();
         return redirect()->route('historialusoaireacondicionados.index');
     }
 }

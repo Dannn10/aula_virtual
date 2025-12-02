@@ -6,27 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        Schema::create('aires_acondicionados', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('aula_id')->constrained();
-    $table->string('estado'); // encendido / apagado
-    $table->integer('temperatura')->nullable();
-    $table->timestamps();
-});
+        Schema::create('aire_acondicionados', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->foreignId('aula_id')->constrained()->onDelete('cascade');
+            $table->string('marca')->nullable();
+            $table->string('modelo')->nullable();
+            $table->enum('estado', ['encendido', 'apagado', 'mantenimiento'])->default('apagado');
+            $table->integer('temperatura')->default(22);
+            $table->enum('modo', ['frio', 'calor', 'ventilador'])->default('frio');
+            $table->enum('velocidad', ['baja', 'media', 'alta'])->default('media');
+            $table->timestamps();
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('aire_acondicionados');

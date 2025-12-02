@@ -9,8 +9,8 @@ class HistorialFocoController extends Controller
 {
     public function index()
     {
-        $historiales = HistorialFoco::all();
-        return view('historialfocos.index', compact('historiales'));
+        $historial = HistorialFoco::all(); // Cambié $historiales por $historial
+        return view('historialfocos.index', compact('historial'));
     }
 
     public function create()
